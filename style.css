@@ -1,0 +1,40 @@
+body{
+    margin: 0;
+    height: 100vh;
+    text-align: center;
+    background-color: #ebf5ff;
+}
+
+/* NAVBAR */
+.navbar{
+    background-color: #1e3a5f;
+    padding: 10px 0;
+    width: 100%;
+}
+
+/* LISTA HORIZONTAL */
+.navbar ul{
+    list-style: none;
+    display: flex;             
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* LINKS */
+.navbar a{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    transition: 0.3s;
+}
+
+/* HOVER */
+.navbar a:hover{
+    color: #a8d0ff;
+    transform: scale(1.1);
+}
