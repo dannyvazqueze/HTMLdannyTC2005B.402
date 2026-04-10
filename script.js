@@ -21,19 +21,38 @@ function limpiarCampos(){
 }
 
 
-function validarLogin(){
+async function validarLogin(){
     //revisara si ususario y contraseña -> correctos?
     // si -> welcome!
     // no -> ERROR!
 
-    //aprendo if else en js
-
-    let user = document.getElementById("username").value
+//read users inputs
+    let email = document.getElementById("email").value
     let password = document.getElementById("password").value
 
-    if (user === "dannyv32" && password === "235476"){
+//case 1: empty (make if)
+    if (!email || !password){
+        document.getElementById("mensaje").textContent= "Favor de ingresar tus datos respectivamente"
+        return;
+    }
+
+//case 2: verify if welcome or error
+    //recieve json from user using fetch from URL.  ------------------------------------------------------------------    
+    const response = await fetch("http://localhost:4000/api/login/login", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({email, password})  
+    });
+    
+    //recieve json from server ----------------------------------------------------------------------------------------
+    const data = await response.json();
+
+    //verify welcome or error with if ok -----------------------------------------------------------------------------
+    if (response.ok){
         document.getElementById("mensaje").textContent = "WELCOME " + user + "!!"
     } else{
-            document.getElementById("mensaje").textContent = "ERROR ususario y/o contraseña son incorrectos"
+            document.getElementById("mensaje").textContent = "ERROR user and/or password are incorrect"
         }
 }
+
+

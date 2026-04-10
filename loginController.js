@@ -51,6 +51,7 @@ export const loginUser = async (req, res) => {
       user: user.rows[0],
     });
   } catch (error) {
+    console.log("ERROR:", error)
     res.status(500).json(error.message);
   }
 };

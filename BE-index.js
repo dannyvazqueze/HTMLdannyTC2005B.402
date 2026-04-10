@@ -18,6 +18,11 @@ app.use(cors()); //frontend -> API
 app.use(morgan("dev")); //Requests->Servidor shown en TERMINAL
 app.use(express.json()); //frontend -> datos Servidor processe 
 
+app.use((req, res, next) => {
+    console.log("REQUEST LLEGÓ:", req.method, req.url)
+    next()
+})
+
 //FUNCIONES ROUTES ----------------------------------
 app.use("/api/users", usersRoutes);
 app.use("/api/login", loginRoutes);
