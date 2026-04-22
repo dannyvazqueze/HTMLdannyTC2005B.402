@@ -20,39 +20,42 @@ function limpiarCampos(){
     document.getElementById("mensaje").textContent = ""
 }
 
-
 async function validarLogin(){
-    //revisara si ususario y contraseña -> correctos?
-    // si -> welcome!
-    // no -> ERROR!
 
-//read users inputs
     let email = document.getElementById("email").value
     let password = document.getElementById("password").value
 
-//case 1: empty (make if)
     if (!email || !password){
-        document.getElementById("mensaje").textContent= "Favor de ingresar tus datos respectivamente"
+        document.getElementById("mensaje").textContent =
+        "Favor de ingresar tus datos respectivamente"
         return;
     }
 
-//case 2: verify if welcome or error
-    //recieve json from user using fetch from URL.  ------------------------------------------------------------------    
-    const response = await fetch("http://localhost:4000/api/login/login", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({email, password})  
-    });
-    
-    //recieve json from server ----------------------------------------------------------------------------------------
-    const data = await response.json();
+    try {
+        const response = await fetch("http://localhost:4000/api/login/login", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({email, password})  
+        });
 
-    //verify welcome or error with if ok -----------------------------------------------------------------------------
-    if (response.ok){
-        document.getElementById("mensaje").textContent = "WELCOME " + user + "!!"
-    } else{
-            document.getElementById("mensaje").textContent = "ERROR user and/or password are incorrect"
+        const data = await response.json();
+        console.log("Respuesta servidor:", data);
+
+        //PRIMERO verificamos si el login fue exitoso
+        if (!response.ok){
+            document.getElementById("mensaje").textContent = data;
+            return;
         }
+
+        //SOLO si fue exitoso usamos el user.id
+        const userId = data.user.id;
+
+        localStorage.setItem("UserId", userId);
+        window.location.href = `game.html?userId=${userId}`;
+
+    } catch (error){
+        console.error("Error conexión:", error);
+        document.getElementById("mensaje").textContent =
+        "No se pudo conectar con el servidor";
+    }
 }
-
-
